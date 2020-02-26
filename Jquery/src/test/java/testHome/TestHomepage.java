@@ -1,14 +1,20 @@
 package testHome;
 
-import common.CommonAPI;
+
+import common.WebAPI;
 import home.Homepage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import static home.Homepage.*;
 
-public class TestHomepage extends CommonAPI {
+import static home.Homepage.clickOnElement;
+import static home.Homepage.driver;
+import static home.Homepage.sleepFor;
+import static home.Homepage.*;
+import static home.WebElementHomepage.*;
+
+public class TestHomepage extends WebAPI {
 
     //PageFactory
     public static void getInItElements(){ PageFactory.initElements(driver, Homepage.class);}

@@ -627,6 +627,53 @@ public class WebAPI {
     public static void scrollToWebElement(String path){
         ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();",
                 driver.findElement(By.xpath(path)));
+
+    }
+
+
+    public static void resizeElement(String frameLocator, String Snippet) {
+
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath(frameLocator)));
+        WebElement resizeableElement = driver.findElement(By.xpath(Snippet));
+        resize(resizeableElement, 50, 50);
+    }
+
+    public static void resize(WebElement elementToResize, int xOffset, int yOffset) {
+        try {
+            if (elementToResize.isDisplayed()) {
+                Actions action = new Actions(driver);
+                action.clickAndHold(elementToResize).moveByOffset(xOffset, yOffset).release().build().perform();
+            } else {
+                System.out.println("Element was not displayed to drag");
+            }
+        } catch (StaleElementReferenceException e) {
+            System.out.println("Element with " + elementToResize + "is not attached to the page document "	+ e.getStackTrace());
+        } catch (java.util.NoSuchElementException e) {
+            System.out.println("Element " + elementToResize + " was not found in DOM " + e.getStackTrace());
+        } catch (Exception e) {
+            System.out.println("Unable to resize" + elementToResize + " - "	+ e.getStackTrace());
+        }
+    }
+
+    public void dragAndDrop(String dragFrom, String dropTo){
+
+        WebElement From=driver.findElement(By.xpath(dragFrom));
+
+        WebElement To=driver.findElement(By.xpath(dropTo));
+
+        Actions act=new Actions(driver);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS) ;
+
+        //Dragged and dropped.
+        act.dragAndDrop(From, To).build().perform();
+
+    }
+
+    public static void rightClickMouse(String locator){
+        Actions actions = new Actions(driver);
+        WebElement elementLocator = driver.findElement(By.xpath(locator));
+        actions.contextClick(elementLocator).perform();
     }
 //    static HomePage homepage;
 //    static AboutPage aboutpage;
